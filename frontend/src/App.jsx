@@ -9,6 +9,24 @@ function App() {
   const [patients, setPatients] = useState([]);
   const [clinicians, setClinicians] = useState([]);
 
+  //Get patients from backend
+  useEffect (() => {
+    const getPatientsFromBackend = async() => {
+      const response = await axios.get('http://localhost:8000/patient');
+      setPatients(response.data);
+    };
+    getPatientsFromBackend(); 
+  }, []);
+
+  //Get clinicians from backend
+  useEffect (() => {
+    const getCliniciansFromBackend = async() => {
+      const response = await axios.get('http://localhost:8000/clinician');
+      setClinicians(response.data);
+    };
+    getCliniciansFromBackend(); 
+  }, []);
+
   //Get appointments from backend
   useEffect (() => {
     const getAppointmentsFromBackend = async() => {
@@ -18,25 +36,11 @@ function App() {
     getAppointmentsFromBackend(); 
   }, []);
 
-  useEffect (() => {
-    const getPatientsFromBackend = async() => {
-      const response = await axios.get('http://localhost:8000/patient');
-      setPatients(response.data);
-    };
-    getPatientsFromBackend(); 
-  }, []);
-
-  useEffect (() => {
-    const getCliniciansFromBackend = async() => {
-      const response = await axios.get('http://localhost:8000/clinician');
-      setClinicians(response.data);
-    };
-    getCliniciansFromBackend(); 
-  }, []);
 
   const findPatientName = ((id) => {
     const patient = patients.find((e) => e.patientID == id);
     const name = `${patient.nameLast}, ${patient.nameFirst}`;
+    console.log(name)
     return name;
   });
 
@@ -73,10 +77,7 @@ function App() {
           ))}
         </tbody>
       </Table>
-
     </div>
-
-
   )
 }
 
