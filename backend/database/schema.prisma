@@ -12,12 +12,12 @@ model Patient {
   nameLast         String
   nameFirst        String
   clinicianPrimary Clinician?    @relation(fields: [clinicianID], references: [npiNumber])
-  clinicianID      Int?
+  clinicianID      Int?      
   Appointment      Appointment[]
 }
 
 model Clinician {
-  npiNumber   Int           @id @default(autoincrement())
+  clinicianID   Int           @id @default(autoincrement())
   nameLast    String
   nameFirst   String
   state       String
