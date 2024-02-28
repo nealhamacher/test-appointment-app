@@ -1,35 +1,83 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios'
+
+import Table from 'react-bootstrap/Table';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [appointments, setAppointments] = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [clinicians, setClinicians] = useState([]);
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+  //Get appointments from backend
+  useEffect (() => {
+    const getAppointmentsFromBackend = async() => {
+      const response = await axios.get('http://localhost:8000/appointment');
+      setAppointments(response.data);
+    };
+    getAppointmentsFromBackend(); 
+  }, []);
+
+  useEffect (() => {
+    const getPatientsFromBackend = async() => {
+      const response = await axios.get('http://localhost:8000/patient');
+      setPatients(response.data);
+    };
+    getPatientsFromBackend(); 
+  }, []);
+
+  useEffect (() => {
+    const getCliniciansFromBackend = async() => {
+      const response = await axios.get('http://localhost:8000/clinician');
+      setClinicians(response.data);
+    };
+    getCliniciansFromBackend(); 
+  }, []);
+
+  const findPatientName = ((id) => {
+    const patient = patients.find((e) => e.patientID == id);
+    const name = `${patient.nameLast}, ${patient.nameFirst}`;
+    return name;
+  });
+
+  const findClinicianName = ((id) => {
+    const clinician = clinicians.find((e) => e.npiNumber == id);
+    const name = `${clinician.nameLast}, ${clinician.nameFirst}`;
+    return name;
+  });
+
+  return(
+    <div classname='body_main'>
+      <h1 id='hdr_main'>Appointment Table</h1>
+      <Table>
+        <thead>
+          <tr>
+            <th>Patient ID</th>
+            <th>Patient Name</th>
+            <th>Clinician ID</th>
+            <th>Clinician Name</th>
+            <th>Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {appointments.map(appointment => (
+            <tr>
+              <td>{appointment.patientID}</td>
+              <td>{findPatientName(appointment.patientID)}</td>
+              <td>{appointment.clinicianID}</td>
+              <td>{findClinicianName(appointment.clinicianID)}</td>
+              <td>{appointment.date}</td>
+              <td>{(appointment.status == 0) ? 'Not complete' : "complete"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
+    </div>
+
+
   )
 }
 
-export default App
+export default App;
