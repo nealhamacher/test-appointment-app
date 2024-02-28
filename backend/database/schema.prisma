@@ -17,7 +17,7 @@ model Patient {
 }
 
 model Clinician {
-  clinicianID   Int           @id @default(autoincrement())
+  npiNumber   Int           @id @default(autoincrement())
   nameLast    String
   nameFirst   String
   state       String
