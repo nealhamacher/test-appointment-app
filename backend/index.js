@@ -42,7 +42,7 @@ app.post('/patient', async (req, res) => {
  */
 app.get('/patient', async(req, res) => {
     const patients = await prisma.patient.findMany();
-    res.status(200).json(patients).send();
+    res.status(200).json(patients);
     return;
 });
 
@@ -58,6 +58,7 @@ app.get('/patient/:id', async(req, res) => {
             }
         });
         res.status(200).json(patient);
+        return;
     } catch(error) {
         res.status(500).send(`Error: ${error}`);
         return;
