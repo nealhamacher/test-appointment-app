@@ -4,6 +4,8 @@ import axios from 'axios'
 
 import Table from 'react-bootstrap/Table';
 
+//TODO (Major): Implement react-query or similar for loading screen, implement
+//              date range filter and state management, styling, commenting
 function App() {
   const [appointments, setAppointments] = useState([]);
   const [patients, setPatients] = useState([]);
