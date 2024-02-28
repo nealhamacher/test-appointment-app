@@ -1,9 +1,7 @@
 # Test Appointment App  
 
-This is a sample web app for a clinician and patient appointment tracking system.  
-The backend is mostly complete but the frontend is very much a work in progress.  
-Uses vite (react), express (nodejs), and prisma ORM for sqlite database.  
-Requires npm and npx to run.
+This is a sample web app for a clinician and patient appointment tracking system.  This app cross-references the NPPES NPI Registry API (https://npiregistry.cms.hhs.gov/api-page) to verify clinicians information. NOTE: Clinicians used in this database were chosen at random, they are in no way affiliated with this application or its creator.
+The backend is mostly complete but the frontend is very much a work in progress.  Uses vite (react), express (nodejs), and prisma ORM for sqlite database.  Requires npm and npx to run.
 
 ## To run  
 <ol>
